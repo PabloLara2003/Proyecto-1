@@ -1,9 +1,13 @@
 package modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdminGeneral implements Usuario{
 	private String nombre;
 	private String usuario;
 	private String contrasena;
+	private List<AdminLocal> administradores = new ArrayList<>(); 
 	
 
 	public AdminGeneral(String nombre, String usuario, String contrasena) {
@@ -28,5 +32,10 @@ public class AdminGeneral implements Usuario{
 		return nombre;
 	}
 	
-
+	public void registrarVehiculo() {}
+	
+	public void registrarAdminLocal(String usuario, String contrasena, String nombre) {
+		AdminLocal nuevoAdmin= new AdminLocal(usuario,contrasena,nombre);
+		administradores.add(nuevoAdmin);
+	}
 }

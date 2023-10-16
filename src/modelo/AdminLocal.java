@@ -5,6 +5,13 @@ public class AdminLocal implements Usuario{
 	private String contrasena; 
 	private String nombre;
 
+	public AdminLocal(String usuario, String contrasena, String nombre) {
+		super();
+		this.usuario = usuario;
+		this.contrasena = contrasena;
+		this.nombre = nombre;
+	}
+
 	@Override
 	public String getUsuario() {
 		// TODO Auto-generated method stub
