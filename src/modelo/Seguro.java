@@ -56,4 +56,10 @@ public class Seguro {
 	public void setCompañía(String compañía) {
 		this.compañía = compañía;
 	}
+
+	public String generarTexto() {
+		String texto = getPoliza() + "," + getCobertura() + "," + getFechaInicio() + ","
+				+ getVencimiento() + "," + getCompañía();
+		return texto;
+	}
 }

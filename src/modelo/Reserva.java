@@ -1,13 +1,19 @@
 package modelo;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Reserva {
 	private int idReserva;
 	private Cliente cliente;
-	private ArrayList <Conductor> conductores;
+	private ArrayList <Conductor> conductores = new ArrayList<Conductor>();
 	private Vehiculo vehiculo;
-	private Seguro segruo;
+	private Seguro seguro;
 	private MedioDePago medioDePago;
 	
 	public Reserva(int id, Cliente pCliente, Conductor conductor, Vehiculo carro, Seguro pSeguro, MedioDePago medioPago) {
@@ -15,7 +21,7 @@ public class Reserva {
 		cliente = pCliente;
 		conductores.add(conductor);
 		vehiculo = carro;
-		segruo = pSeguro;
+		seguro = pSeguro;
 		medioDePago = medioPago;
 	}
 	
@@ -38,9 +44,9 @@ public class Reserva {
 	public ArrayList <Conductor> getConductores() {
 		return conductores;
 	}
-
-	public void setConductores(ArrayList <Conductor> conductores) {
-		this.conductores = conductores;
+	
+	public void agregarConductor(Conductor conductor) {
+		conductores.add(conductor);
 	}
 
 	public Vehiculo getVehiculo() {
@@ -52,11 +58,11 @@ public class Reserva {
 	}
 
 	public Seguro getSegruo() {
-		return segruo;
+		return seguro;
 	}
 
 	public void setSegruo(Seguro pSegruo) {
-		segruo = pSegruo;
+		seguro = pSegruo;
 	}
 
 	public MedioDePago getMedioDePago() {
@@ -66,8 +72,34 @@ public class Reserva {
 	public void setMedioDePago(MedioDePago medioPago) {
 		medioDePago = medioPago;
 	}
-
-	public void agregarConductor(Conductor conductor) {
-		conductores.add(conductor);
+	
+	private String generarTexto() {
+		String texto = getIdReserva() + ":" + cliente.generarTexto();
+		for (int i = 0 ;i < conductores.size(); i++) {
+			texto += conductores.get(i).generarTexto() + ":";
+		}
+		texto += "InfoVehiculo" + ":" + seguro.generarTexto() + ":" + medioDePago.generarTexto();
+		return texto;
+	}
+	
+	public void guardarReserva(File archivo, boolean creado) throws IOException {
+		String texto = "";
+		if (creado) {
+			BufferedReader br = new BufferedReader(new FileReader(archivo));
+			String linea = br.readLine();
+			while (linea != null) {
+				texto += linea + ";";
+				linea = br.readLine();
+			}
+			br.close();
+		}
+		BufferedWriter bw = new BufferedWriter(new FileWriter(archivo));
+		texto += generarTexto();
+		String[] reservas = texto.split(";");
+		for (int i = 0; i < reservas.length; i++) {
+			bw.write(reservas[i]);
+			bw.newLine();
+		}
+		bw.close();
 	}
 }

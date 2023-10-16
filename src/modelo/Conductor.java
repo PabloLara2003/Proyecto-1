@@ -14,4 +14,9 @@ public class Conductor {
 	public void setLicencia(Licencia lic) {
 		licencia = lic;
 	}
+
+	public String generarTexto() {
+		String texto = licencia.generarTexto();
+		return texto;
+	}
 }

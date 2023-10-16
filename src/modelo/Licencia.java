@@ -47,4 +47,10 @@ public class Licencia {
 	public void setImagenLicencia(BufferedImage imagenLic) {
 		imagenLicencia = imagenLic;
 	}
+
+	public String generarTexto() {
+		String texto = getNumeroLic() + "'" + getPaisExp() + "'" + getFechaVen()
+				+ "'" + getImagenLic();
+		return texto;
+	}
 }

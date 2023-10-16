@@ -17,11 +17,11 @@ public class MedioDePago {
 		}
 	}
 	
-	public String getmedio() {
+	public String getMedio() {
 		return medio;
 	}
 	
-	public void setmedio(String medio) {
+	public void setMedio(String medio) {
 		this.medio = medio;
 	}
 
@@ -47,5 +47,11 @@ public class MedioDePago {
 
 	public void setCVV(int cVV) {
 		CVV = cVV;
+	}
+
+	public String generarTexto() {
+		String texto = getMedio() + "'" + getNumero() + "'" + getFechaVencimiento() + "'"
+				+ getCVV();
+		return texto;
 	}
 }

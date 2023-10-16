@@ -13,12 +13,12 @@ public class Cliente {
 	private Licencia licencia;
 	private MedioDePago medioPago;
 	
-	public Cliente(String nombreCliente, String correoCliente, String celularCliente, Date fechaN, String nacinalidadCliente, BufferedImage imagenDocumento, Licencia lic, MedioDePago medio) {
+	public Cliente(String nombreCliente, String correoCliente, String celularCliente, Date fechaN, String nacionalidadCliente, BufferedImage imagenDocumento, Licencia lic, MedioDePago medio) {
 		nombre = nombreCliente;
 		correo = correoCliente;
 		celular = celularCliente;
 		fechaNacimiento = fechaN;
-		nacionalidad = nacinalidadCliente;
+		nacionalidad = nacionalidadCliente;
 		imagenDocumentoIdentidad = imagenDocumento;
 		licencia = lic;
 		medioPago = medio;
@@ -86,5 +86,12 @@ public class Cliente {
 
 	public void setMedioPago(MedioDePago medioPago) {
 		this.medioPago = medioPago;
+	}
+
+	public String generarTexto() {
+		String texto = getNombre() + "," + getCorreo() + "," + getCelular() + "," + getFechaNacimiento()
+				+ "," + getNacionalidad() + "," + getImagenDocumentoIdentidad() + "," + licencia.generarTexto()
+				+ "," + medioPago.generarTexto();
+		return texto;
 	}
 }
