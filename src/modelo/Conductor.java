@@ -10,4 +10,8 @@ public class Conductor {
 	public Licencia getLicencia() {
 		return licencia;
 	}
+	
+	public void setLicencia(Licencia lic) {
+		licencia = lic;
+	}
 }

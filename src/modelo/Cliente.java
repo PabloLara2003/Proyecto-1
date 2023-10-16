@@ -4,12 +4,87 @@ import java.awt.image.BufferedImage;
 import java.util.Date;
 
 public class Cliente {
-	String nombre;
-	String correo;
-	int celular;
-	Date fechaNacimiento;
-	String nacionalidad;
-	BufferedImage imagenDocumentoIdentidad;
-	Licencia licencia;
+	private String nombre;
+	private String correo;
+	private String celular;
+	private Date fechaNacimiento;
+	private String nacionalidad;
+	private BufferedImage imagenDocumentoIdentidad;
+	private Licencia licencia;
+	private MedioDePago medioPago;
 	
+	public Cliente(String nombreCliente, String correoCliente, String celularCliente, Date fechaN, String nacinalidadCliente, BufferedImage imagenDocumento, Licencia lic, MedioDePago medio) {
+		nombre = nombreCliente;
+		correo = correoCliente;
+		celular = celularCliente;
+		fechaNacimiento = fechaN;
+		nacionalidad = nacinalidadCliente;
+		imagenDocumentoIdentidad = imagenDocumento;
+		licencia = lic;
+		medioPago = medio;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
+	public BufferedImage getImagenDocumentoIdentidad() {
+		return imagenDocumentoIdentidad;
+	}
+
+	public void setImagenDocumentoIdentidad(BufferedImage imagenDocumentoIdentidad) {
+		this.imagenDocumentoIdentidad = imagenDocumentoIdentidad;
+	}
+
+	public Licencia getLicencia() {
+		return licencia;
+	}
+
+	public void setLicencia(Licencia licencia) {
+		this.licencia = licencia;
+	}
+
+	public MedioDePago getMedioPago() {
+		return medioPago;
+	}
+
+	public void setMedioPago(MedioDePago medioPago) {
+		this.medioPago = medioPago;
+	}
 }
