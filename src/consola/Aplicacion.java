@@ -1,6 +1,7 @@
 package consola;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -9,14 +10,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import modelo.AdminGeneral;
 import modelo.AdminLocal;
+import modelo.AlquilerVehiculos;
 import modelo.Categoria;
 import modelo.Empleado;
+import modelo.Reserva;
 import modelo.Sede;
 
 
 public class Aplicacion {
 	AdminGeneral adminGeneral= new AdminGeneral("Admin1", "Administrador2023", "123456");
-	
+	AlquilerVehiculos alquiler = new AlquilerVehiculos();
 	
 	public void ejecutarAplicacion() throws ParseException 
 	{
@@ -60,7 +63,35 @@ public class Aplicacion {
 		
 	}
 	
-	public void ejecutarCliente(){}
+	public void mostrarMenuCliente(){
+		System.out.println("Bienvenido señor(a) cliente");
+		System.out.println("1. Hacer reserva");
+		System.out.println("1. Cancelar reserva");
+		System.out.println("2. Salir al menu principal");
+	}
+	
+	public void ejecutarCliente(){
+		boolean continuar= true;
+		while(continuar) 
+		{
+			mostrarMenuCliente();
+			int opcionSeleccionada = Integer.parseInt(input("Elija una opción"));
+			if (opcionSeleccionada == 1) {
+				ejecutarCrearReserva();
+			}else if (opcionSeleccionada == 2) {
+				try {
+					ejecutarCancelarReserva();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}else if (opcionSeleccionada == 3) {
+				continuar = false;
+			}else {
+				System.out.println("Elija una opción valida\n");
+			}
+		}
+	}
+	
 	public void ejecutarEmpleado(){}
 	
 	public void ejecutarAdminLocal(){
@@ -229,6 +260,68 @@ public class Aplicacion {
 		
 	}
 	
+	public void ejecutarCrearReserva() {
+		String nombreCliente = input("Escriba su nombre");
+		String correoCliente = input("Escriba su correo");
+		String celualrCliente = input("Escriba su celular");
+		String fechaNacimiento = input("Escriba su fecha de nacimiento (formato: AAAA/MM/DD)");
+		Date fechaNaci = new Date(Integer.parseInt(fechaNacimiento.substring(0, 4))-1900, Integer.parseInt(fechaNacimiento.substring(5, 7))-1, Integer.parseInt(fechaNacimiento.substring(8, 10)));
+		String nacionalidad = input("Escriba su nacionalidad");
+		String rutaDocumento = input("Escriba la ruta a la imagen de su documento de identidad");
+		String numLicencia = input("Escriba el número de su licencia");
+		String paisLic = input("Escriba el país en el cual fue expedida su licencia");
+		String fechaVencimientoLic = input("Escriba su fecha de nacimiento (formato: AAAA/MM/DD)");
+		Date fechaVenLic = new Date(Integer.parseInt(fechaVencimientoLic.substring(0, 4))-1900, Integer.parseInt(fechaVencimientoLic.substring(5, 7))-1, Integer.parseInt(fechaVencimientoLic.substring(8, 10)));
+		String rutaLic = input("Escriba la ruta a la imagen de su licencia");
+		String medioDePago = input("Escriba si va a pagar con 'Efectivo' o 'Tarjeta'");
+		String num = "N/A";
+		String fechaVencimientoTar = "0000/00/00";
+		String CVV = "N/A";
+		if (medioDePago == "Tarjeta") {
+			num = input("Escriba el número de su tarjera");
+			fechaVencimientoTar = input("Escriba su fecha de nacimiento (formato: AAAA/MM/DD)");
+			Date fechaVenTar = new Date(Integer.parseInt(fechaVencimientoTar.substring(0, 4))-1900, Integer.parseInt(fechaVencimientoTar.substring(5, 7))-1, Integer.parseInt(fechaVencimientoTar.substring(8, 10)));
+			CVV = input("Escriba el código de seguridad de su tarjete(CVV)");
+		}
+		String idCategoria = "N/A";
+		int tarifa = 0;
+		int valorExtra = 0;
+		String reservar = input("¿Desea reservar un carro? (Y/N)");
+		if (reservar == "Y") {
+			idCategoria = input("Elija la categoría del carro que desea reservar");
+		}
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular");
+		String fechaInicio = input("Escriba la fecha de inicio de la reserva:");
+		Date fechaIni = new Date(Integer.parseInt(fechaInicio.substring(0, 4))-1900, Integer.parseInt(fechaInicio.substring(5, 7))-1, Integer.parseInt(fechaInicio.substring(8, 10)));
+		try {
+			alquiler.crearReserva(nombreCliente, correoCliente, nombreCliente, null, nombreCliente, nombreCliente, nombreCliente, nombreCliente, null, nombreCliente, nombreCliente, nombreCliente, null, nombreCliente, nombreCliente, 0, 0, nombreCliente, nombreCliente, null, null, nombreCliente, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void ejecutarCancelarReserva() throws IOException {
+		ArrayList<Reserva> reservas = alquiler.getReservas();
+		System.out.println("Estas son las reservas guardadas en el sistema:\n");
+		for (int ind = 0; ind < reservas.size(); ind++) {
+			System.out.println(reservas.get(ind).getIdReserva() + ". " + reservas.get(ind).getTipoDeVehiculo().generarTexto() + " " + reservas.get(ind).getFechaInicio() + "\n");
+		}
+		int idReserva = Integer.parseInt(input("Digite el ID de la reserva que desea cancelar"));
+		alquiler.cancelarReserva(idReserva);
+	}
 	
 	public String input(String mensaje)
 	{
@@ -247,9 +340,10 @@ public class Aplicacion {
 	}
 	
 	
-	public static void main(String[] args) throws ParseException
+	public static void main(String[] args) throws ParseException, FileNotFoundException, IOException
 	{
 		Aplicacion aplicacion = new Aplicacion();
+		aplicacion.alquiler.cargarReservas();
 		aplicacion.ejecutarAplicacion();
 	}
 

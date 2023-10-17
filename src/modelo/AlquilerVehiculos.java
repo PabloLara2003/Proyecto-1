@@ -1,9 +1,11 @@
 package modelo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +13,19 @@ import java.util.Date;
 public class AlquilerVehiculos {
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 	
-	public void crearReserva(){
-		reservas.add(new Reserva(0, null, null, null, null, null, null));
+	public void crearReserva(String nombreCliente, String correoCliente, String celularCliente,
+			Date fechaNaci, String naciocalidadCliente, String rutaDocumento, String numeroLic,
+			String paisExp, Date fechaVenLic, String rutaLic, String medioPago, String num,
+			Date fechaVenTar, String CVV, String idCategoria, int tarifa, int valorExtra,
+			String poliza, String cobertura, Date fechaInicio, Date fechaVenSegu, String compania,
+			Date fechaIni) throws IOException{
+		reservas.add(new Reserva(reservas.size()+1, new Cliente(nombreCliente, correoCliente,
+				celularCliente, fechaNaci, naciocalidadCliente, rutaDocumento, new Licencia(numeroLic,
+				paisExp, fechaVenLic, rutaLic), new MedioDePago(medioPago, num, fechaVenTar, CVV)),
+				new Conductor(new Licencia(numeroLic, paisExp, fechaVenLic, rutaLic)),
+				new Categoria(idCategoria, tarifa, valorExtra), new Seguro(poliza, cobertura,
+				fechaInicio, fechaVenSegu, compania), new MedioDePago(medioPago, num,fechaVenTar, CVV),
+				fechaIni));
 		try {
 			boolean creado = true;
 			File archivo = new File("data/DatosReservas.txt");
@@ -24,7 +37,29 @@ public class AlquilerVehiculos {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	public void cancelarReserva(int indice) throws IOException{
+		reservas.remove(indice - 1);
+		String texto = "";
+		BufferedReader br = new BufferedReader(new FileReader("data/DatosReservas.txt"));
+		String linea = br.readLine();
+		int ind = 1;
+		while (linea != null) {
+			if (indice != ind) {
+				texto += linea + ";";
+			}
+			linea = br.readLine();
+			ind += 1;
+		}
+		br.close();
+		BufferedWriter bw = new BufferedWriter(new FileWriter("data/DatosReservas.txt"));
+		String[] reservas = texto.split(";");
+		for (int i = 0; i < reservas.length; i++) {
+			bw.write(reservas[i]);
+			bw.newLine();
+		}
+		bw.close();
 	}
 	
 	public void cargarReservas() throws FileNotFoundException, IOException {
@@ -85,5 +120,9 @@ public class AlquilerVehiculos {
 		int segundo = Integer.parseInt(partesFecha[5]);
 		Date fecha = new Date(ano, mes, dia, hora, minuto, segundo);
 		return fecha;
+	}
+	
+	public ArrayList<Reserva> getReservas(){
+		return reservas;
 	}
 }
