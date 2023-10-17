@@ -36,6 +36,8 @@ public class Categoria {
 		this.valorExtra = valorExtra;
 	}
 	
-	
-
+	public String generarTexto() {
+		String texto = getIdCategoria() + "," + getTarifaPorDia() + "," + getValorExtra();
+		return texto;
+	}
 }
