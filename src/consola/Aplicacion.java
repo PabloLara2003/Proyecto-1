@@ -303,7 +303,7 @@ public class Aplicacion {
 //		String celualrCliente = input("Escriba su celular");
 //		String celualrCliente = input("Escriba su celular");
 //		String celualrCliente = input("Escriba su celular");
-//		String celualrCliente = input("Escriba su celular");
+//		String celualrCliente = input("Escriba su celular")
 		String fechaInicio = input("Escriba la fecha de inicio de la reserva:");
 		Date fechaIni = new Date(Integer.parseInt(fechaInicio.substring(0, 4))-1900, Integer.parseInt(fechaInicio.substring(5, 7))-1, Integer.parseInt(fechaInicio.substring(8, 10)));
 		try {
