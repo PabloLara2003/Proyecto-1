@@ -47,7 +47,15 @@ public class AlquilerVehiculos {
 			Date fechaVenTar = generarFecha(partesFechaVenTar);
 			MedioDePago medioPago = new MedioDePago(partesMedioPago[0], partesMedioPago[1], fechaVenTar, partesMedioPago[3]);
 			Cliente cliente = new Cliente(partesCliente[0], partesCliente[1], partesCliente[2], fechaNaci, partesCliente[4], partesCliente[5], licencia, medioPago);
-			Conductor conductor = new Conductor(licencia);
+			String[] partesConductores = partes[2].split(",");
+			ArrayList<Conductor> conductores = new ArrayList<Conductor>();
+			for (int i = 0; i < partesConductores.length; i++) {
+				String[] partesConductor = partesConductores[i].split("'");
+				String[] partesFechaVenLic = partesConductor[2].split(".");
+				Date fechaVen = generarFecha(partesFechaVenLic);
+				Conductor conductor = new Conductor(new Licencia(partesConductor[0], partesConductor[1], fechaVen, partesConductor[3]));
+				conductores.add(conductor);
+			}
 			String[] partesCategoria = partes[3].split(",");
 			Categoria categoria = new Categoria(partesCategoria[0], Integer.parseInt(partesCategoria[1]), Integer.parseInt(partesCategoria[2]));
 			String[] partesSeguro = partes[4].split(",");
@@ -58,7 +66,10 @@ public class AlquilerVehiculos {
 			Seguro seguro = new Seguro(partesSeguro[0], partesSeguro[1], fechaIniSegu, fechaVenSegu, partesSeguro[4]);
 			String[] partesFechaIni = partes[6].split(".");
 			Date fechaIni = generarFecha(partesFechaIni);
-			Reserva reserva = new Reserva(id, cliente, conductor, categoria, seguro, medioPago, fechaIni);
+			Reserva reserva = new Reserva(id, cliente, conductores.get(0), categoria, seguro, medioPago, fechaIni);
+			for (int i = 1; i < partesConductores.length; i++) {
+				reserva.agregarConductor(conductores.get(i));
+			}
 			reservas.add(reserva);
 			linea = br.readLine();
 		}
