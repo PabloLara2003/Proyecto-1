@@ -1,5 +1,5 @@
 package modelo;
-
+//
 public class Categoria {
 	private String idCategoria;
 	private int tarifaPorDia;
