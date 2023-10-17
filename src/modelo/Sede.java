@@ -9,15 +9,17 @@ public class Sede {
 	private ArrayList<Double> horarioAtencion;
 	private ArrayList<Empleado> empleados;
 	private AdminLocal adminLocal;
+	private ArrayList<Vehiculo> vehiculos; 
 	
 	public Sede(String nombreSede, String ubicacion, ArrayList<Double> horarioAtencion, ArrayList<Empleado> empleados,
-			AdminLocal adminLocal) {
+			AdminLocal adminLocal, ArrayList<Vehiculo> vehiculos) {
 		super();
 		this.nombreSede = nombreSede;
 		this.ubicacion = ubicacion;
 		this.horarioAtencion = horarioAtencion;
 		this.empleados = empleados;
 		this.adminLocal = adminLocal;
+		this.vehiculos = vehiculos;
 	}
 
 	public String getNombreSede() {
@@ -39,8 +41,19 @@ public class Sede {
 	public AdminLocal getAdminLocal() {
 		return adminLocal;
 	}
+
+	public ArrayList<Vehiculo> getVehiculos() {
+		return vehiculos;
+	}
+
+	public void setVehiculos(ArrayList<Vehiculo> vehiculos) {
+		this.vehiculos = vehiculos;
+	}
 	
-	
+	public void agregarVehiculos(Vehiculo vehiculo) 
+	{
+		vehiculos.add(vehiculo);
+	}
 	
 
 }

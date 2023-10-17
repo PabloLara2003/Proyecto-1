@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Vehiculo {
 	private boolean disponibilidad;
-	private int placa;
+	private String placa;
 	private Categoria categoria;
 	private String marca;
 	private String modelo;
@@ -13,16 +13,32 @@ public class Vehiculo {
 	private int cantidadPuertas;
 	private String tipoCombustible;
 	private Date fechaDisponibilidad;
-	 public boolean isDisponibilidad() {
+	
+	
+	 public Vehiculo(boolean disponibilidad, String placa, Categoria categoria, String marca, String modelo, String color,
+			String tipoTransmision, int cantidadPuertas, String tipoCombustible, Date fechaDisponibilidad) {
+		super();
+		this.disponibilidad = disponibilidad;
+		this.placa = placa;
+		this.categoria = categoria;
+		this.marca = marca;
+		this.modelo = modelo;
+		this.color = color;
+		this.tipoTransmision = tipoTransmision;
+		this.cantidadPuertas = cantidadPuertas;
+		this.tipoCombustible = tipoCombustible;
+		this.fechaDisponibilidad = fechaDisponibilidad;
+	}
+	public boolean isDisponibilidad() {
 		return disponibilidad;
 	}
 	public void setDisponibilidad(boolean disponibilidad) {
 		this.disponibilidad = disponibilidad;
 	}
-	public int getPlaca() {
+	public String getPlaca() {
 		return placa;
 	}
-	public void setPlaca(int placa) {
+	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
 	public Categoria getCategoria() {

@@ -3,14 +3,18 @@ package consola;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import modelo.AdminGeneral;
+import modelo.Categoria;
+import modelo.Sede;
 
 public class Aplicacion {
 	AdminGeneral adminGeneral= new AdminGeneral("Admin1", "Administrador2023", "123456");
 	
 	
-	public void ejecutarAplicacion() 
+	public void ejecutarAplicacion() throws ParseException 
 	{
 		boolean continuar= true;
 		while(continuar)
@@ -46,10 +50,9 @@ public class Aplicacion {
 	public void mostrarMenuAdminGeneral(){
 		System.out.println("1. Registrar vehiculo");
 		System.out.println("2. Eliminar vehiculo");
-		System.out.println("3. Registrar empleado");
-		System.out.println("4. Registrar Administrador local");
-		System.out.println("5. Registrar sedes");
-		System.out.println("6. Salir al menu principal\n");
+		System.out.println("3. Registrar Administrador local");
+		System.out.println("4. Registrar sedes");
+		System.out.println("5. Salir al menu principal\n");
 		
 	}
 	
@@ -68,7 +71,7 @@ public class Aplicacion {
 		}
 	}
 	
-	public void ejecutarAdminGeneral(){
+	public void ejecutarAdminGeneral() throws ParseException{
 		boolean continuar= true;
 		while(continuar) 
 		{
@@ -78,17 +81,17 @@ public class Aplicacion {
 				mostrarMenuAdminGeneral();
 				int opcionSeleccionada = Integer.parseInt(input("Ingrese el numero de la opcion deseada\n"));
 				
-				if(opcionSeleccionada==1)
+				if(opcionSeleccionada==1) {
 					ejecutarRegistrarVehiculo();
+					System.out.println("Recuerde que para registrar un vehiculo debe de tener una sede ya registrada donde asignarlo");
+				}
 				else if(opcionSeleccionada==2)
 					ejecutarEliminarVehiculo();
 				else if(opcionSeleccionada==3)
-					ejecutarRegistrarEmpleado();
-				else if(opcionSeleccionada==4)
 					ejecutarRegistrarAdminLocal();
-				else if(opcionSeleccionada==5)
+				else if(opcionSeleccionada==4)
 					ejecutarRegistrarSede();
-				else if(opcionSeleccionada==6) 
+				else if(opcionSeleccionada==5) 
 				{
 					System.out.println("Cerrando la aplicacion");
 					continuar= false;
@@ -101,15 +104,74 @@ public class Aplicacion {
 		}
 	}
 	
-	public void ejecutarRegistrarVehiculo(){}
+	public void ejecutarRegistrarVehiculo() throws ParseException{
+		boolean continuar= true;
+		while(continuar) {
+			System.out.println("Recuerde que para registrar un vehiculo debe de tener una sede ya registrada donde asignarlo");
+			String respuesta= input("¿La categoria del auto ya ha sido registrada? (Y/N)");
+			
+			if(respuesta.equals("n")|| respuesta.equals("N")){
+				System.out.println("por favor ingrese los datos de la categoria del auto");
+				String id = input("Ingrese el id de la categoria");
+				int tarifaDia = Integer.parseInt(input("Ingrese la tarifa diaria de la categoria"));
+				int tarifaExtra = Integer.parseInt(input("Ingrese el valor extra en temporada alta"));
+				adminGeneral.registrarCategoria(id, tarifaDia, tarifaExtra);
+				System.out.println("La categoria de id "+ id + " se ha registrado\n");
+			}
+			else {}
+			System.out.println("Ahora ingrese los datos del vehiculo ");
+			String placa= input("Ingrese la placa del vehiculo");
+			String categoriaString= input("Ingrese el ID de la categoria del vehiculo");
+			Categoria categoriaObj = null;
+			for(Categoria categoria : adminGeneral.getCategorias()) 
+			{
+				if( categoria.getIdCategoria().equals(categoriaString)) {
+					categoriaObj = categoria;
+					break;
+				}
+				else {
+					System.out.println("el ID de la categoria no es el correcto.\n");
+					continuar= false;
+					
+				}
+			}
+			String marca= input("Ingrese el nombre de la marca del vehiculo");
+			String modelo= input("Ingrese el modelo del vehiculo");
+			String color= input("Ingrese el color del vehiculo");
+			String transmision= input("Ingrese el tipo de transmision del vehiculo");
+			int puertas = Integer.parseInt(input("Ingrese el numero de puertas"));
+			String combustible = input("Ingrese el tipo de combustible del vehiculo");
+			String fechaDisponibilidad = ("Ingrese desde que fecha estara disponible el vehiculo en formato (dd/MM/yyyy)");
+			SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+			Date fecha = formato.parse(fechaDisponibilidad);
+			String sedeString = input("Ingrese el nombre de la sede donde se almacenara el Vehiculo");
+			Sede sedeObj= null;
+			for(Sede sede : adminGeneral.getSedes()) 
+			{
+				if( sede.getNombreSede().equals(sedeString)) {
+					sedeObj = sede;
+					break;
+				}
+				else {
+					System.out.println("el nombre de la sede no es el correcto o no existe.\n");
+					continuar= false;
+					break;
+				}
+			}
+			adminGeneral.registrarVehiculo(true, placa, categoriaObj, marca, modelo, color, transmision, puertas, combustible, fecha, sedeObj);
+			
+		}
+		
+	}
 	public void ejecutarEliminarVehiculo(){}
-	public void ejecutarRegistrarEmpleado(){}
+	
 	public void ejecutarRegistrarAdminLocal()
 	{
 		String usuario= input("Ingrese el usuario del nuevo usuario");
 		String contrasena= input("Ingrese la contrasena del nuevo usuario");
 		String nombre= input("Ingrese el nombre del nuevo usuario");
 		adminGeneral.registrarAdminLocal(usuario, contrasena, nombre);
+		System.out.println("El administrador local de nombre "+ nombre + " ha sido registrado");
 	}
 	public void ejecutarRegistrarSede(){}
 	
@@ -131,7 +193,7 @@ public class Aplicacion {
 	}
 	
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws ParseException
 	{
 		Aplicacion aplicacion = new Aplicacion();
 		aplicacion.ejecutarAplicacion();
