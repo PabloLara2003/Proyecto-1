@@ -12,14 +12,14 @@ public class Sede {
 	private ArrayList<Vehiculo> vehiculos; 
 	
 	public Sede(String nombreSede, String ubicacion, ArrayList<Double> horarioAtencion, ArrayList<Empleado> empleados,
-			AdminLocal adminLocal, ArrayList<Vehiculo> vehiculos) {
+			AdminLocal adminLocal) {
 		super();
 		this.nombreSede = nombreSede;
 		this.ubicacion = ubicacion;
 		this.horarioAtencion = horarioAtencion;
 		this.empleados = empleados;
 		this.adminLocal = adminLocal;
-		this.vehiculos = vehiculos;
+		
 	}
 
 	public String getNombreSede() {
@@ -54,6 +54,9 @@ public class Sede {
 	{
 		vehiculos.add(vehiculo);
 	}
-	
+	public void eliminarVehiculo(Vehiculo vehiculo) 
+	{
+		vehiculos.remove(vehiculo);
+	}
 
 }

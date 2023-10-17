@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import modelo.AdminGeneral;
+import modelo.AdminLocal;
 import modelo.Categoria;
+import modelo.Empleado;
 import modelo.Sede;
+
 
 public class Aplicacion {
 	AdminGeneral adminGeneral= new AdminGeneral("Admin1", "Administrador2023", "123456");
@@ -111,7 +115,7 @@ public class Aplicacion {
 			String respuesta= input("¿La categoria del auto ya ha sido registrada? (Y/N)");
 			
 			if(respuesta.equals("n")|| respuesta.equals("N")){
-				System.out.println("por favor ingrese los datos de la categoria del auto");
+				System.out.println("por favor ingrese los datos de la categoria del auto\n");
 				String id = input("Ingrese el id de la categoria");
 				int tarifaDia = Integer.parseInt(input("Ingrese la tarifa diaria de la categoria"));
 				int tarifaExtra = Integer.parseInt(input("Ingrese el valor extra en temporada alta"));
@@ -155,7 +159,7 @@ public class Aplicacion {
 				else {
 					System.out.println("el nombre de la sede no es el correcto o no existe.\n");
 					continuar= false;
-					break;
+					
 				}
 			}
 			adminGeneral.registrarVehiculo(true, placa, categoriaObj, marca, modelo, color, transmision, puertas, combustible, fecha, sedeObj);
@@ -163,7 +167,29 @@ public class Aplicacion {
 		}
 		
 	}
-	public void ejecutarEliminarVehiculo(){}
+	public void ejecutarEliminarVehiculo(){
+		String placa= input("Ingrese la placa del vehiculo que desea eliminar");
+		String sedeNombre = input("Ingrese el nombre de la sede donde se encuentra el vehiculo");
+		Sede sedeObj= null;
+		for(Sede sede : adminGeneral.getSedes()) 
+		{
+			if( sede.getNombreSede().equals(sedeNombre)) {
+				sedeObj = sede;
+				break;
+			}
+			else {
+				System.out.println("el nombre de la sede no es el correcto o no existe.\n");
+				
+			}
+		}
+		adminGeneral.eliminarVehiculos(placa, sedeObj);
+		System.out.println("El auto de placa "+ placa + " ha sido eliminado");
+		
+		
+	}
+		
+
+	
 	
 	public void ejecutarRegistrarAdminLocal()
 	{
@@ -173,7 +199,35 @@ public class Aplicacion {
 		adminGeneral.registrarAdminLocal(usuario, contrasena, nombre);
 		System.out.println("El administrador local de nombre "+ nombre + " ha sido registrado");
 	}
-	public void ejecutarRegistrarSede(){}
+	public void ejecutarRegistrarSede(){
+		String respuesta= input("¿Ya registro al Administrador local de la sede? (Y/N)\n");
+		if(respuesta.equals("n")|| respuesta.equals("N")){
+			ejecutarRegistrarAdminLocal();
+		}
+		else {}
+		String nombre= input("Ingrese el nombre de la sede");
+		String ubicacion= input("Ingrese la ubicacion de la sede");
+		double horaI= Double.parseDouble(input("Ingrese la hora a la que abre la sede en horario 24h (hh.mm)"));
+		double horaF= Double.parseDouble(input("Ingrese la hora a la que cierra la sede en horario 24h (hh.mm)"));
+		ArrayList<Double> hora= new ArrayList<>();
+		hora.add(horaI);
+		hora.add(horaF);
+		ArrayList<Empleado> empleados= new ArrayList<>();
+		String adminLocalNombre= input("Ingrese el nombre del administrador local de la sede");
+		AdminLocal adminLocal = null;
+		for(AdminLocal admin : adminGeneral.getAdminLocal()) 
+		{
+			if( admin.getNombre().equals(adminLocalNombre)) {
+				adminLocal = admin;
+				break;
+			}
+			else {
+				System.out.println("el nombre del administrador no es correcto o no existe.");
+			}	
+		}
+		adminGeneral.registrarSede(nombre, ubicacion, hora, empleados, adminLocal);
+		
+	}
 	
 	
 	public String input(String mensaje)

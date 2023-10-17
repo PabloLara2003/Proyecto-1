@@ -24,4 +24,9 @@ public class AdminLocal implements Usuario{
 		return contrasena;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+
 }
