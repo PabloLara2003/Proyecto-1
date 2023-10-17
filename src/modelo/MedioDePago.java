@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class MedioDePago {
 	private String medio;
-	private int numero;
+	private String numero;
 	private Date fechaVencimiento;
-	private int CVV;
+	private String CVV;
 	
-	public MedioDePago(String medioPago, int num, Date fechaVen, int cvv) {
+	public MedioDePago(String medioPago, String num, Date fechaVen, String cvv) {
 		medio = medioPago;
 		if (medio != "efectivo") {
 			numero = num;
@@ -25,11 +25,11 @@ public class MedioDePago {
 		this.medio = medio;
 	}
 
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
@@ -41,11 +41,11 @@ public class MedioDePago {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public int getCVV() {
+	public String getCVV() {
 		return CVV;
 	}
 
-	public void setCVV(int cVV) {
+	public void setCVV(String cVV) {
 		CVV = cVV;
 	}
 

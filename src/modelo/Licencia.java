@@ -1,26 +1,32 @@
 package modelo;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
+
 public class Licencia {
-	private int numero;
+	private String numero;
 	private String paisExpedicion;
 	private Date fechaVencimiento;
 	private BufferedImage imagenLicencia;
+	private String rutaImagenLicencia;
 	
-	public Licencia(int numeroLic, String paisExp, Date fechaVen, BufferedImage imagenLic) {
+	public Licencia(String numeroLic, String paisExp, Date fechaVen, String rutaImagenLic) throws IOException {
 		numero = numeroLic;
 		paisExpedicion = paisExp;
 		fechaVencimiento = fechaVen;
-		imagenLicencia = imagenLic;
+		rutaImagenLicencia = rutaImagenLic;
+		imagenLicencia = ImageIO.read(new File(rutaImagenLicencia));
 	}
 
-	public int getNumeroLic() {
+	public String getNumeroLic() {
 		return numero;
 	}
 	
-	public void setNumeroLic(int numLic) {
+	public void setNumeroLic(String numLic) {
 		numero = numLic;
 	}
 
@@ -48,9 +54,23 @@ public class Licencia {
 		imagenLicencia = imagenLic;
 	}
 
+	public String getRutaImagenLicencia() {
+		return rutaImagenLicencia;
+	}
+
+	public void setRutaImagenLicencia(String rutaImagenLicencia) {
+		this.rutaImagenLicencia = rutaImagenLicencia;
+	}
+	
+	public String generarTextoFechaVencimiento() {
+		String texto = "";
+		texto += fechaVencimiento.getYear() + "." + fechaVencimiento.getMonth() + "." + fechaVencimiento.getDate() + "." + fechaVencimiento.getHours() + "." + fechaVencimiento.getMinutes() + "." + fechaVencimiento.getSeconds();
+		return texto;
+	}
+	
 	public String generarTexto() {
-		String texto = getNumeroLic() + "'" + getPaisExp() + "'" + getFechaVen()
-				+ "'" + getImagenLic();
+		String texto = getNumeroLic() + "'" + getPaisExp() + "'" + generarTextoFechaVencimiento()
+				+ "'" + getRutaImagenLicencia();
 		return texto;
 	}
 }
